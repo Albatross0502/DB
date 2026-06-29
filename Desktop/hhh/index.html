@@ -67,9 +67,10 @@ html,body{height:100%;overflow:hidden}
 body{background:var(--obsidian-bg);color:var(--text-primary);font-family:'Inter',sans-serif;font-size:14px;line-height:1.5}
 
 /* === SCROLLBAR === */
-::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar{width:6px; height:6px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--obsidian-border);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--cyan-dim)}
 
 /* === LAYOUT === */
 #app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
@@ -164,9 +165,22 @@ body{background:var(--obsidian-bg);color:var(--text-primary);font-family:'Inter'
 .move-cell.current{background:var(--cyan-glow);color:var(--cyan);border:1px solid rgba(0,212,255,0.3)}
 
 /* === MODALS === */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s; overflow:hidden;}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--obsidian-panel);border:1px solid var(--glass-border);border-radius:16px;padding:32px;max-width:480px;width:90%;box-shadow:0 25px 80px rgba(0,0,0,0.8);transform:scale(0.9);transition:transform 0.3s}
+.modal{
+  background:var(--obsidian-panel);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  padding:32px;
+  max-width:480px;
+  width:90%;
+  box-shadow:0 25px 80px rgba(0,0,0,0.8);
+  transform:scale(0.9);
+  transition:transform 0.3s;
+  /* FIX: Added max-height and scrolling to prevent buttons from hiding off-screen */
+  max-height: 90vh;
+  overflow-y: auto;
+}
 .modal-overlay.open .modal{transform:scale(1)}
 .modal h2{font-family:'Cinzel',serif;font-size:22px;color:var(--cyan);margin-bottom:20px;text-align:center;text-shadow:0 0 20px var(--cyan-glow)}
 .modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
@@ -261,7 +275,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
 </head>
 <body>
 <div id="app">
-  <!-- HEADER -->
   <div id="header">
     <div id="logo">GRAND<span>MASTER</span> ♟ CHESS PRO</div>
     <div id="header-controls">
@@ -281,11 +294,8 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
   <div id="main-content">
-    <!-- LEFT PANEL -->
     <div id="left-panel">
-      <!-- Timer Black -->
       <div class="panel-section">
         <div class="panel-label">Black</div>
         <div class="timer-display" id="timer-black">10:00</div>
@@ -297,7 +307,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
         <div class="captured-pieces" id="captured-by-black"></div>
       </div>
 
-      <!-- Opening Explorer -->
       <div class="panel-section">
         <div class="panel-label">Opening</div>
         <div id="opening-info">
@@ -305,7 +314,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
         </div>
       </div>
 
-      <!-- Game Stats -->
       <div class="panel-section scrollable">
         <div class="panel-label">Statistics</div>
         <div class="stat-row"><span class="stat-label">Total Moves</span><span class="stat-value" id="stat-moves">0</span></div>
@@ -315,7 +323,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
         <div class="stat-row"><span class="stat-label">Game Phase</span><span class="stat-value" id="stat-phase">Opening</span></div>
       </div>
 
-      <!-- Timer White -->
       <div class="panel-section" style="margin-top:auto">
         <div class="player-info" id="player-white" style="margin-bottom:6px">
           <div class="player-avatar">♙</div>
@@ -328,9 +335,7 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
       </div>
     </div>
 
-    <!-- CENTER AREA -->
     <div id="center-area">
-      <!-- Player info top -->
       <div id="top-player" style="display:flex;justify-content:space-between;width:100%;max-width:600px;gap:8px">
         <div class="player-info" id="top-player-info" style="flex:1">
           <div class="player-avatar black">♟</div>
@@ -340,7 +345,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
         <div class="timer-display" id="top-timer" style="font-size:18px;padding:6px 14px">10:00</div>
       </div>
 
-      <!-- Board -->
       <div id="board-container">
         <div id="ai-thinking"><span class="think-dots">🤔</span></div>
         <div id="eval-container">
@@ -358,7 +362,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
         </div>
       </div>
 
-      <!-- Player info bottom -->
       <div id="bottom-player" style="display:flex;justify-content:space-between;width:100%;max-width:600px;gap:8px">
         <div class="player-info" id="bottom-player-info" style="flex:1">
           <div class="player-avatar">♙</div>
@@ -369,9 +372,7 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
       </div>
     </div>
 
-    <!-- RIGHT PANEL -->
     <div id="right-panel">
-      <!-- Move History -->
       <div class="panel-section" style="flex-shrink:0">
         <div class="panel-label">Move History</div>
         <div style="display:flex;gap:4px">
@@ -382,7 +383,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
       </div>
       <div id="move-list" class="scrollable"></div>
 
-      <!-- Analysis -->
       <div class="panel-section" style="flex-shrink:0">
         <div class="panel-label">Analysis</div>
         <div class="analysis-hint" id="best-move-hint">Make a move to see analysis</div>
@@ -392,7 +392,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
         </div>
       </div>
 
-      <!-- Controls -->
       <div class="panel-section" style="flex-shrink:0">
         <div class="panel-label">Controls</div>
         <div class="btn-group">
@@ -403,7 +402,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
     </div>
   </div>
 
-  <!-- STATUS BAR -->
   <div id="status-bar">
     <div id="game-status"><span class="status-highlight" id="status-text">White to move</span></div>
     <div id="status-controls">
@@ -413,13 +411,10 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
   </div>
 </div>
 
-<!-- DRAG GHOST -->
 <div id="drag-ghost"></div>
 
-<!-- NOTIFICATION -->
 <div id="notification"></div>
 
-<!-- NEW GAME MODAL -->
 <div class="modal-overlay" id="new-game-modal">
   <div class="modal">
     <h2>⚔ New Game</h2>
@@ -460,7 +455,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
   </div>
 </div>
 
-<!-- PROMOTION MODAL -->
 <div class="modal-overlay" id="promotion-modal">
   <div class="modal" style="text-align:center">
     <h2>🎉 Pawn Promotion</h2>
@@ -469,7 +463,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
   </div>
 </div>
 
-<!-- PGN MODAL -->
 <div class="modal-overlay" id="pgn-modal">
   <div class="modal">
     <h2>📋 Game PGN</h2>
@@ -481,7 +474,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
   </div>
 </div>
 
-<!-- FEN MODAL -->
 <div class="modal-overlay" id="fen-modal">
   <div class="modal">
     <h2>🔗 FEN String</h2>
@@ -494,7 +486,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
   </div>
 </div>
 
-<!-- GAME OVER MODAL -->
 <div class="modal-overlay" id="gameover-modal">
   <div class="modal" style="text-align:center">
     <div id="gameover-icon" style="font-size:56px;margin-bottom:12px">♚</div>
@@ -507,7 +498,6 @@ select.setting-select{background:var(--obsidian-bg);color:var(--text-primary);bo
   </div>
 </div>
 
-<!-- SETTINGS PANEL -->
 <div id="settings-panel">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
     <span style="font-family:'Cinzel',serif;font-size:16px;color:var(--cyan)">⚙ Settings</span>
@@ -1681,37 +1671,6 @@ function onDrop(e) {
   dragFrom=null;
 }
 
-// Touch support
-let touchStartSq=null;
-document.addEventListener('touchstart', (e)=>{
-  const t=e.touches[0];
-  const el=document.elementFromPoint(t.clientX,t.clientY);
-  if(!el) return;
-  const sq=parseInt(el.closest('[data-sq]')?.dataset.sq);
-  if(isNaN(sq)) return;
-  touchStartSq=sq;
-  handleSquareSelect(sq);
-},{passive:true});
-document.addEventListener('touchend', (e)=>{
-  const t=e.changedTouches[0];
-  const el=document.elementFromPoint(t.clientX,t.clientY);
-  if(!el) return;
-  const sq=parseInt(el.closest('[data-sq]')?.dataset.sq);
-  if(!isNaN(sq) && touchStartSq!==null && sq!==touchStartSq) {
-    if(selectedSq!==null && validMoves.includes(sq)) {
-      const piece=board[selectedSq];
-      const [tr]=rc(sq);
-      if(piece&&piece[1]==='P'&&(tr===0||tr===7)) showPromotion(selectedSq,sq);
-      else {
-        makeMove(selectedSq,sq);
-        selectedSq=null; validMoves=[];
-        renderBoard();
-        if(gameMode==='pvai'&&!gameOver&&currentTurn!==playerColor) setTimeout(doAIMove,100);
-      }
-    }
-  }
-  touchStartSq=null;
-},{passive:true});
 
 // === PROMOTION ===
 let promoFrom=null, promoTo=null;
@@ -1766,6 +1725,13 @@ function stopTimer() {
 }
 
 function updateTimerDisplays() {
+  // If timeControl is 0, clear displays
+  if (timeControl <= 0) {
+    ['timer-white','bottom-timer', 'timer-black','top-timer'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.textContent='-:-';
+    });
+    return;
+  }
   const fmtTime=(s)=>{
     if(s<0)s=0;
     const m=Math.floor(s/60), sec=s%60;
