@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f8f3f7">
+    <meta name="description"
+        content="DIXITA — an independent fashion designer shaping modern couture, bridal artistry and expressive silhouettes.">
+    <title>DIXITA | Fashion Designer & Couture Atelier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --paper: #fbf8f5;
+            --ink: #302833;
+            --muted: #766c77;
+            --lav: #d9c8ed;
+            --lav-deep: #8e70ac;
+            --blush: #f2d5dc;
+            --peach: #f4dfd0;
+            --blue: #d7e5f2;
+            --line: rgba(64, 45, 65, .13);
+            --glass: rgba(255, 255, 255, .66);
+            --serif: 'Playfair Display', Georgia, serif;
+            --sans: 'DM Sans', Arial, sans-serif;
+            --ease: cubic-bezier(.22, .8, .25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--paper);
+            color: var(--ink);
+            overflow-x: hidden
+        }
+
+        body.menu-open {
+            overflow: hidden
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit
+        }
+
+        button {
+            color: inherit
+        }
+
+        img {
+            display: block;
+            max-width: 100%
+        }
+
+        ::selection {
+            background: var(--lav);
+            color: var(--ink)
+        }
+
+        .ambient {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -2;
+            overflow: hidden;
+            background: radial-gradient(ellipse at 8% 10%, rgba(217, 200, 237, .42), transparent 36%), radial-gradient(ellipse at 94% 35%, rgba(242, 213, 220, .42), transparent 33%), radial-gradient(ellipse at 52% 100%, rgba(215, 229, 242, .48), transparent 40%)
+        }
+
+        .ambient:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: .15;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E")
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--lav-deep), #c68a9c, #9cbad3);
+            z-index: 2000
+        }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            background: var(--paper);
+            display: grid;
+            place-items: center;
+            transition: opacity .7s ease, visibility .7s
+        }
+
+        #loader.hide {
+            opacity: 0;
+            visibility: hidden
+        }
+
+        .loader-mark {
+            font: clamp(3rem, 9vw, 6rem) var(--serif);
+            letter-spacing: .22em;
+            margin-left: .22em;
+            animation: softPulse 1.3s infinite alternate
+        }
+
+        .loader-sub {
+            font-size: .65rem;
+            letter-spacing: .35em;
+            text-transform: uppercase;
+            text-align: center;
+            color: var(--muted);
+            margin-top: 14px
+        }
+
+        @keyframes softPulse {
+            to {
+                opacity: .35;
+                transform: translateY(-4px)
+            }
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--lav-deep);
+            pointer-events: none;
+            z-index: 2500;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: multiply
+        }
+
+        header.site-header {
+            position: fixed;
+            z-index: 1500;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 22px 5.2vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: padding .35s, background .35s, border .35s
+        }
+
+        .site-header.scrolled {
+            padding-top: 13px;
+            padding-bottom: 13px;
+            background: rgba(251, 248, 245, .84);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--line)
+        }
+
+        .brand {
+            font: 600 1.75rem var(--serif);
+            letter-spacing: .25em;
+            margin-right: -.25em
+        }
+
+        .brand small {
+            display: block;
+            font: 500 .5rem var(--sans);
+            letter-spacing: .3em;
+            text-align: center;
+            margin-top: 2px;
+            color: var(--muted)
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: clamp(18px, 3vw, 42px)
+        }
+
+        .nav-links a {
+            font-size: .7rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            position: relative;
+            padding: 8px 0
+        }
+
+        .nav-links a:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 1px;
+            background: var(--lav-deep);
+            transition: width .3s
+        }
+
+        .nav-links a:hover:after {
+            width: 100%
+        }
+
+        .nav-cta,
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: 1px solid var(--ink);
+            border-radius: 100px;
+            padding: 13px 22px;
+            font-size: .7rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            transition: all .3s var(--ease);
+            background: transparent;
+            cursor: pointer
+        }
+
+        .nav-cta:hover,
+        .button:hover {
+            background: var(--ink);
+            color: white;
+            transform: translateY(-2px)
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: 0;
+            font-size: 1.7rem;
+            cursor: pointer
+        }
+
+        .hero {
+            min-height: 100svh;
+            padding: 135px 5.2vw 65px;
+            display: grid;
+            grid-template-columns: .95fr 1.05fr;
+            align-items: center;
+            gap: 4vw;
+            position: relative
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 2;
+            padding: 25px 0
+        }
+
+        .eyebrow {
+            font-size: .68rem;
+            letter-spacing: .27em;
+            text-transform: uppercase;
+            color: var(--lav-deep);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .eyebrow:before {
+            content: "";
+            height: 1px;
+            width: 35px;
+            background: currentColor
+        }
+
+        .hero h1 {
+            font: 400 clamp(3.5rem, 7.2vw, 7.8rem)/.96 var(--serif);
+            letter-spacing: -.055em;
+            margin: 28px 0
+        }
+
+        .hero h1 em {
+            font-weight: 400;
+            color: var(--lav-deep)
+        }
+
+        .hero-intro {
+            max-width: 420px;
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--muted)
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 13px;
+            flex-wrap: wrap;
+            margin-top: 32px
+        }
+
+        .button.primary {
+            background: var(--ink);
+            color: #fff
+        }
+
+        .button.primary:hover {
+            background: var(--lav-deep);
+            border-color: var(--lav-deep)
+        }
+
+        .hero-note {
+            margin-top: 48px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: var(--muted);
+            font-size: .68rem;
+            letter-spacing: .12em;
+            text-transform: uppercase
+        }
+
+        .hero-note span {
+            display: block;
+            width: 46px;
+            height: 1px;
+            background: var(--line)
+        }
+
+        .hero-visual {
+            height: min(72vh, 760px);
+            min-height: 500px;
+            position: relative
+        }
+
+        .hero-image-frame {
+            position: absolute;
+            inset: 0 6% 0 7%;
+            border-radius: 48% 48% 12px 12px;
+            overflow: hidden;
+            background: var(--blush)
+        }
+
+        .hero-image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+            animation: heroZoom 18s ease-in-out infinite alternate
+        }
+
+        @keyframes heroZoom {
+            to {
+                transform: scale(1.07)
+            }
+        }
+
+        .hero-image-frame:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(39, 25, 37, .15), transparent 48%)
+        }
+
+        .hero-stamp {
+            position: absolute;
+            left: 0;
+            bottom: 11%;
+            width: 135px;
+            height: 135px;
+            border-radius: 50%;
+            background: var(--lav);
+            display: grid;
+            place-items: center;
+            text-align: center;
+            font: italic 1.05rem/1.35 var(--serif);
+            transform: rotate(-11deg);
+            box-shadow: 0 12px 35px #5a3d5520
+        }
+
+        .hero-caption {
+            position: absolute;
+            right: 0;
+            bottom: 4%;
+            writing-mode: vertical-rl;
+            text-transform: uppercase;
+            letter-spacing: .22em;
+            font-size: .62rem;
+            color: var(--muted)
+        }
+
+        .hero-index {
+            position: absolute;
+            right: 8%;
+            top: 5%;
+            font: italic 1rem var(--serif);
+            color: var(--lav-deep)
+        }
+
+        .scroll-cue {
+            position: absolute;
+            bottom: 25px;
+            left: 5.2vw;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            font-size: .6rem;
+            text-transform: uppercase;
+            letter-spacing: .2em;
+            color: var(--muted)
+        }
+
+        .scroll-cue i {
+            display: block;
+            width: 40px;
+            height: 1px;
+            background: var(--muted)
+        }
+
+        .section {
+            padding: 115px 5.2vw
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 25px;
+            margin-bottom: 45px
+        }
+
+        .section-kicker {
+            font-size: .65rem;
+            letter-spacing: .24em;
+            text-transform: uppercase;
+            color: var(--lav-deep);
+            font-weight: 700;
+            margin-bottom: 15px
+        }
+
+        .section h2 {
+            font: 400 clamp(2.6rem, 5vw, 5rem)/1.05 var(--serif);
+            letter-spacing: -.04em
+        }
+
+        .section h2 em {
+            color: var(--lav-deep)
+        }
+
+        .section-desc {
+            max-width: 340px;
+            line-height: 1.8;
+            color: var(--muted);
+            font-size: .9rem
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8vw;
+            align-items: center
+        }
+
+        .intro-image {
+            height: 590px;
+            position: relative
+        }
+
+        .intro-image img {
+            width: 85%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 48% 48% 8px 8px;
+            margin-left: auto
+        }
+
+        .intro-image:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 7%;
+            width: 46%;
+            height: 55%;
+            background: var(--peach);
+            border-radius: 48% 48% 8px 8px;
+            z-index: -1
+        }
+
+        .image-label {
+            position: absolute;
+            left: 0;
+            top: 13%;
+            background: var(--blue);
+            padding: 18px 20px;
+            max-width: 170px;
+            font: italic 1.1rem/1.4 var(--serif);
+            transform: rotate(-5deg)
+        }
+
+        .intro-copy p {
+            font-size: 1rem;
+            line-height: 2;
+            color: var(--muted);
+            margin: 25px 0
+        }
+
+        .signature {
+            font: italic 2.1rem var(--serif);
+            color: var(--lav-deep);
+            margin-top: 28px
+        }
+
+        .signature small {
+            display: block;
+            font: .62rem var(--sans);
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 6px
+        }
+
+        .marquee-band {
+            overflow: hidden;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            padding: 22px 0;
+            background: rgba(255, 255, 255, .35)
+        }
+
+        .marquee-track {
+            display: flex;
+            align-items: center;
+            width: max-content;
+            animation: marquee 36s linear infinite
+        }
+
+        .marquee-track span {
+            font: italic clamp(1.5rem, 3vw, 2.6rem) var(--serif);
+            white-space: nowrap;
+            padding: 0 28px;
+            color: #89788b
+        }
+
+        .marquee-track b {
+            font: normal 1.3rem var(--sans);
+            color: #c99eae
+        }
+
+        @keyframes marquee {
+            to {
+                transform: translateX(-50%)
+            }
+        }
+
+        .collections {
+            background: rgba(255, 255, 255, .25)
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px
+        }
+
+        .collection-card {
+            position: relative;
+            min-height: 470px;
+            overflow: hidden;
+            border-radius: 8px;
+            background: var(--lav);
+            isolation: isolate
+        }
+
+        .collection-card:nth-child(2) {
+            margin-top: 55px;
+            background: var(--blush)
+        }
+
+        .collection-card:nth-child(3) {
+            background: var(--blue)
+        }
+
+        .collection-card img {
+            width: 100%;
+            height: 100%;
+            min-height: 470px;
+            object-fit: cover;
+            transition: transform .8s var(--ease);
+            position: absolute;
+            inset: 0;
+            z-index: -2
+        }
+
+        .collection-card:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(35, 24, 37, .72), transparent 60%);
+            z-index: -1
+        }
+
+        .collection-card:hover img {
+            transform: scale(1.06)
+        }
+
+        .collection-info {
+            position: absolute;
+            left: 25px;
+            right: 25px;
+            bottom: 27px;
+            color: #fff
+        }
+
+        .collection-info small {
+            font-size: .62rem;
+            text-transform: uppercase;
+            letter-spacing: .2em
+        }
+
+        .collection-info h3 {
+            font: 400 2.2rem var(--serif);
+            margin: 8px 0
+        }
+
+        .collection-info p {
+            font-size: .78rem;
+            line-height: 1.7;
+            max-width: 280px;
+            color: #ffffffd9
+        }
+
+        .collection-arrow {
+            position: absolute;
+            right: 25px;
+            top: 25px;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid #ffffffa6;
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+            transition: .3s
+        }
+
+        .collection-card:hover .collection-arrow {
+            background: #fff;
+            color: var(--ink);
+            transform: rotate(45deg)
+        }
+
+        .portfolio {
+            background: #f6f0f4
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 9px;
+            flex-wrap: wrap;
+            margin-bottom: 30px
+        }
+
+        .filter-btn {
+            border: 1px solid var(--line);
+            background: transparent;
+            border-radius: 100px;
+            padding: 10px 17px;
+            font-size: .66rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: .25s
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--ink);
+            border-color: var(--ink);
+            color: white
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 18px
+        }
+
+        .gallery-card {
+            position: relative;
+            overflow: hidden;
+            min-height: 260px;
+            background: var(--blush);
+            cursor: pointer;
+            grid-column: span 4;
+            border-radius: 5px;
+            animation: cardIn .5s both
+        }
+
+        .gallery-card:nth-child(6n+1),
+        .gallery-card:nth-child(6n+4) {
+            grid-column: span 5
+        }
+
+        .gallery-card:nth-child(6n+2),
+        .gallery-card:nth-child(6n+5) {
+            grid-column: span 4
+        }
+
+        .gallery-card:nth-child(6n+3),
+        .gallery-card:nth-child(6n) {
+            grid-column: span 3
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+            object-fit: cover;
+            transition: transform .7s var(--ease)
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.06)
+        }
+
+        .gallery-card:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(29, 21, 31, .68), transparent 55%);
+            opacity: .8;
+            transition: .3s
+        }
+
+        .gallery-meta {
+            position: absolute;
+            z-index: 1;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            color: white;
+            transform: translateY(5px);
+            transition: .3s
+        }
+
+        .gallery-meta small {
+            font-size: .6rem;
+            text-transform: uppercase;
+            letter-spacing: .2em
+        }
+
+        .gallery-meta h3 {
+            font: 400 1.5rem var(--serif);
+            margin-top: 6px
+        }
+
+        .gallery-card:hover .gallery-meta {
+            transform: translateY(0)
+        }
+
+        .gallery-card.hidden {
+            display: none
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line)
+        }
+
+        .process-card {
+            padding: 30px 24px 34px 0;
+            border-right: 1px solid var(--line);
+            margin-right: 24px
+        }
+
+        .process-card:last-child {
+            border: 0;
+            margin: 0
+        }
+
+        .process-no {
+            font: italic 1.3rem var(--serif);
+            color: var(--lav-deep)
+        }
+
+        .process-card h3 {
+            font: 400 1.55rem var(--serif);
+            margin: 24px 0 12px
+        }
+
+        .process-card p {
+            font-size: .82rem;
+            line-height: 1.8;
+            color: var(--muted)
+        }
+
+        .quote-section {
+            padding: 105px 8vw;
+            background: linear-gradient(120deg, #eee5f4, #f7e7e9 55%, #e7edf5);
+            text-align: center;
+            position: relative;
+            overflow: hidden
+        }
+
+        .quote-section .quote-mark {
+            font: 5rem var(--serif);
+            line-height: .7;
+            color: #a98bb8
+        }
+
+        .quote-section blockquote {
+            max-width: 920px;
+            margin: 25px auto;
+            font: italic clamp(1.8rem, 4vw, 3.5rem)/1.35 var(--serif)
+        }
+
+        .quote-section p {
+            font-size: .65rem;
+            text-transform: uppercase;
+            letter-spacing: .22em;
+            color: var(--muted)
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: .85fr 1.15fr;
+            gap: 8vw
+        }
+
+        .contact-copy p {
+            color: var(--muted);
+            line-height: 1.9;
+            max-width: 400px;
+            margin: 24px 0
+        }
+
+        .contact-detail {
+            margin-top: 34px;
+            display: grid;
+            gap: 18px
+        }
+
+        .contact-detail div {
+            font-size: .85rem;
+            color: var(--muted)
+        }
+
+        .contact-detail strong {
+            display: block;
+            color: var(--ink);
+            font-weight: 500;
+            margin-bottom: 5px
+        }
+
+        .contact-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 9px
+        }
+
+        .form-field.full {
+            grid-column: 1/-1
+        }
+
+        .form-field label {
+            font-size: .65rem;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+            color: var(--muted)
+        }
+
+        .form-field input,
+        .form-field textarea,
+        .form-field select {
+            width: 100%;
+            border: 0;
+            border-bottom: 1px solid #cfc3cf;
+            background: transparent;
+            padding: 13px 0;
+            outline: none;
+            color: var(--ink);
+            border-radius: 0
+        }
+
+        .form-field input:focus,
+        .form-field textarea:focus,
+        .form-field select:focus {
+            border-color: var(--lav-deep)
+        }
+
+        .form-field textarea {
+            min-height: 100px;
+            resize: vertical
+        }
+
+        .form-note {
+            grid-column: 1/-1;
+            color: var(--muted);
+            font-size: .72rem;
+            line-height: 1.6
+        }
+
+        .contact-form .button {
+            justify-self: start
+        }
+
+        footer {
+            padding: 55px 5.2vw 25px;
+            border-top: 1px solid var(--line);
+            background: rgba(255, 255, 255, .4)
+        }
+
+        .footer-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            padding-bottom: 35px
+        }
+
+        .footer-brand {
+            font: 400 clamp(2.5rem, 6vw, 5rem) var(--serif);
+            letter-spacing: .16em;
+            margin-right: -.16em
+        }
+
+        .footer-top p {
+            max-width: 300px;
+            color: var(--muted);
+            font-size: .8rem;
+            line-height: 1.8
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--line);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            color: var(--muted);
+            font-size: .65rem;
+            letter-spacing: .08em
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 18px
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .8s var(--ease), transform .8s var(--ease)
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(35, 25, 37, .82);
+            backdrop-filter: blur(12px);
+            z-index: 2200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 25px
+        }
+
+        .modal.open {
+            display: flex
+        }
+
+        .modal-box {
+            width: min(1000px, 100%);
+            max-height: 90vh;
+            overflow: auto;
+            background: var(--paper);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            border-radius: 8px
+        }
+
+        .modal-box img {
+            height: 100%;
+            min-height: 480px;
+            width: 100%;
+            object-fit: cover
+        }
+
+        .modal-text {
+            padding: clamp(25px, 5vw, 55px);
+            align-self: center
+        }
+
+        .modal-text h3 {
+            font: 400 clamp(2rem, 4vw, 3.5rem) var(--serif);
+            margin: 15px 0
+        }
+
+        .modal-text p {
+            line-height: 1.9;
+            color: var(--muted);
+            font-size: .9rem
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 13px;
+            right: 13px;
+            border: 0;
+            background: #fff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            z-index: 2
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translate(-50%, 20px);
+            opacity: 0;
+            background: var(--ink);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 50px;
+            font-size: .8rem;
+            z-index: 3000;
+            transition: .3s;
+            pointer-events: none
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0)
+        }
+
+        @media(max-width:900px) {
+            .hero {
+                grid-template-columns: 1fr 1fr;
+                gap: 2vw;
+                padding-top: 120px
+            }
+
+            .hero-visual {
+                min-height: 430px;
+                height: 60vh
+            }
+
+            .hero h1 {
+                font-size: clamp(3.3rem, 8vw, 5.8rem)
+            }
+
+            .section {
+                padding: 85px 5vw
+            }
+
+            .intro-grid {
+                gap: 5vw
+            }
+
+            .intro-image {
+                height: 480px
+            }
+
+            .collection-card,
+            .collection-card img {
+                min-height: 390px
+            }
+
+            .collection-grid {
+                gap: 14px
+            }
+
+            .gallery-card,
+            .gallery-card:nth-child(n) {
+                grid-column: span 6
+            }
+
+            .process-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0
+            }
+
+            .process-card:nth-child(2) {
+                border-right: 0;
+                margin-right: 0
+            }
+
+            .process-card:nth-child(1),
+            .process-card:nth-child(2) {
+                border-bottom: 1px solid var(--line)
+            }
+
+            .contact-grid {
+                gap: 5vw
+            }
+        }
+
+        @media(max-width:650px) {
+            .site-header {
+                padding: 16px 5vw
+            }
+
+            .site-header.scrolled {
+                padding: 12px 5vw
+            }
+
+            .brand {
+                font-size: 1.5rem
+            }
+
+            .menu-toggle {
+                display: block;
+                z-index: 1600
+            }
+
+            .nav-cta {
+                display: none
+            }
+
+            .nav-links {
+                position: fixed;
+                inset: 0;
+                background: rgba(251, 248, 245, .97);
+                backdrop-filter: blur(20px);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 25px;
+                transform: translateY(-110%);
+                transition: transform .45s var(--ease)
+            }
+
+            .nav-links.open {
+                transform: translateY(0)
+            }
+
+            .nav-links a {
+                font: 400 2rem var(--serif);
+                letter-spacing: 0;
+                text-transform: none
+            }
+
+            .hero {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                padding: 125px 5vw 70px;
+                gap: 35px;
+                min-height: auto
+            }
+
+            .hero-copy {
+                padding: 10px 0
+            }
+
+            .hero h1 {
+                font-size: clamp(3.4rem, 16vw, 5.8rem);
+                margin: 23px 0
+            }
+
+            .hero-intro {
+                font-size: .9rem
+            }
+
+            .hero-visual {
+                height: 68vh;
+                min-height: 400px;
+                margin: 0 5px
+            }
+
+            .hero-image-frame {
+                inset: 0 5% 0 5%
+            }
+
+            .hero-stamp {
+                width: 100px;
+                height: 100px;
+                font-size: .85rem;
+                left: -5px
+            }
+
+            .hero-caption {
+                right: -3px
+            }
+
+            .scroll-cue {
+                display: none
+            }
+
+            .section {
+                padding: 72px 5vw
+            }
+
+            .section-head {
+                display: block
+            }
+
+            .section-desc {
+                margin-top: 20px
+            }
+
+            .intro-grid {
+                grid-template-columns: 1fr;
+                gap: 40px
+            }
+
+            .intro-image {
+                height: 430px;
+                margin-right: 15px
+            }
+
+            .intro-image img {
+                width: 87%
+            }
+
+            .image-label {
+                top: 10%
+            }
+
+            .intro-copy p {
+                font-size: .92rem
+            }
+
+            .collection-grid {
+                grid-template-columns: 1fr;
+                gap: 18px
+            }
+
+            .collection-card:nth-child(2) {
+                margin-top: 0
+            }
+
+            .collection-card,
+            .collection-card img {
+                min-height: 470px
+            }
+
+            .gallery {
+                gap: 12px
+            }
+
+            .gallery-card,
+            .gallery-card:nth-child(n) {
+                grid-column: span 6;
+                min-height: 220px
+            }
+
+            .gallery-card img {
+                min-height: 240px
+            }
+
+            .gallery-meta {
+                left: 12px;
+                right: 12px;
+                bottom: 13px
+            }
+
+            .gallery-meta h3 {
+                font-size: 1.15rem
+            }
+
+            .gallery-meta small {
+                font-size: .52rem
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr
+            }
+
+            .process-card,
+            .process-card:nth-child(2) {
+                border-right: 0;
+                border-bottom: 1px solid var(--line);
+                margin: 0;
+                padding: 25px 0
+            }
+
+            .process-card:last-child {
+                border-bottom: 0
+            }
+
+            .process-card h3 {
+                margin: 13px 0 8px
+            }
+
+            .quote-section {
+                padding: 75px 6vw
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 45px
+            }
+
+            .contact-form {
+                grid-template-columns: 1fr
+            }
+
+            .form-field.full,
+            .form-note {
+                grid-column: auto
+            }
+
+            .footer-top {
+                display: block
+            }
+
+            .footer-top p {
+                margin-top: 18px
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                line-height: 1.8
+            }
+
+            .modal {
+                padding: 12px
+            }
+
+            .modal-box {
+                grid-template-columns: 1fr;
+                max-height: 92vh
+            }
+
+            .modal-box img {
+                height: 42vh;
+                min-height: 260px
+            }
+
+            .modal-text {
+                padding: 25px
+            }
+        }
+
+        @media(hover:none), (pointer:coarse) {
+            .cursor-dot {
+                display: none
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+
+            *,
+            *:before,
+            *:after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ambient"></div>
+    <div id="progress"></div>
+    <div id="loader">
+        <div>
+            <div class="loader-mark">DIXITA</div>
+            <div class="loader-sub">A fashion house in motion</div>
+        </div>
+    </div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <header class="site-header" id="header">
+        <a class="brand" href="#home" aria-label="Dixita home">DIXITA<small>DESIGNER · ATELIER</small></a>
+        <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+            <a href="#about">The Designer</a><a href="#collections">Collections</a><a href="#portfolio">Portfolio</a><a
+                href="#process">The Atelier</a><a href="#contact">Contact</a>
+        </nav>
+        <a class="nav-cta" href="#contact">Book a Consultation ↗</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-copy">
+                <div class="eyebrow">Independent fashion designer</div>
+                <h1>Wear your<br><em>own story.</em></h1>
+                <p class="hero-intro">Thoughtful silhouettes. Unexpected details. A little romance in every seam.
+                    Discover the world of DIXITA, where personal style becomes wearable art.</p>
+                <div class="hero-actions"><a class="button primary" href="#collections">Explore collections
+                        <span>↗</span></a><a class="button" href="#contact">Create with me</a></div>
+                <div class="hero-note"><span></span> Couture · Occasionwear · Bespoke design</div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-image-frame"><img
+                        src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1200&q=88"
+                        alt="Editorial fashion look in a flowing designer outfit" fetchpriority="high"></div>
+                <div class="hero-stamp">Made with<br>feeling &<br>intention</div>
+                <div class="hero-index">01 / DIXITA ATELIER</div>
+                <div class="hero-caption">A study in modern femininity</div>
+            </div>
+            <div class="scroll-cue"><i></i> Scroll to discover</div>
+        </section>
+
+        <div class="marquee-band" aria-label="Design philosophy">
+            <div class="marquee-track">
+                <span>Soft structure</span><b>✳</b><span>Modern heirlooms</span><b>✳</b><span>Made to feel like
+                    you</span><b>✳</b><span>Art in every detail</span><b>✳</b><span>Soft
+                    structure</span><b>✳</b><span>Modern heirlooms</span><b>✳</b><span>Made to feel like
+                    you</span><b>✳</b><span>Art in every detail</span><b>✳</b>
+            </div>
+        </div>
+
+        <section class="section" id="about">
+            <div class="intro-grid">
+                <div class="intro-image reveal">
+                    <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1000&q=85"
+                        alt="Fashion editorial with sculptural styling" loading="lazy">
+                    <div class="image-label">A point of view.<br>A personal signature.</div>
+                </div>
+                <div class="intro-copy reveal">
+                    <div class="section-kicker">01 — Meet the designer</div>
+                    <h2>Designing for<br><em>the feeling.</em></h2>
+                    <p>DIXITA is an independent design practice built around individuality, craftsmanship and the
+                        confidence that comes from wearing something that feels truly yours.</p>
+                    <p>From the first sketch to the final fitting, every piece begins with a story. Fluid shapes meet
+                        considered tailoring, tactile fabrics meet delicate details, and tradition finds a fresh
+                        expression.</p>
+                    <a href="#process" class="button">Inside the atelier ↗</a>
+                    <div class="signature">Dixita<small>Designer & creative director</small></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section collections" id="collections">
+            <div class="section-head reveal">
+                <div>
+                    <div class="section-kicker">02 — The design universe</div>
+                    <h2>Collections with<br><em>character.</em></h2>
+                </div>
+                <p class="section-desc">Three expressions of one design philosophy: thoughtful, expressive and made to
+                    be remembered.</p>
+            </div>
+            <div class="collection-grid">
+                <article class="collection-card reveal" tabindex="0" data-modal="0">
+                    <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=85"
+                        alt="Romantic flowing occasionwear" loading="lazy">
+                    <div class="collection-arrow">↗</div>
+                    <div class="collection-info"><small>Collection 01 · Occasionwear</small>
+                        <h3>Petal & Poise</h3>
+                        <p>Romantic forms, soft movement and details that reveal themselves slowly.</p>
+                    </div>
+                </article>
+                <article class="collection-card reveal" tabindex="0" data-modal="1">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=85"
+                        alt="Contemporary designer street style" loading="lazy">
+                    <div class="collection-arrow">↗</div>
+                    <div class="collection-info"><small>Collection 02 · Contemporary</small>
+                        <h3>City Muse</h3>
+                        <p>Clean lines and confident layers for a life that moves at its own pace.</p>
+                    </div>
+                </article>
+                <article class="collection-card reveal" tabindex="0" data-modal="2">
+                    <img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=900&q=85"
+                        alt="Elegant formal designer dress" loading="lazy">
+                    <div class="collection-arrow">↗</div>
+                    <div class="collection-info"><small>Collection 03 · Atelier</small>
+                        <h3>Afterglow</h3>
+                        <p>Statement occasion pieces with a quiet kind of drama.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section portfolio" id="portfolio">
+            <div class="section-head reveal">
+                <div>
+                    <div class="section-kicker">03 — Selected work</div>
+                    <h2>The visual<br><em>diary.</em></h2>
+                </div>
+                <p class="section-desc">A changing moodboard of silhouettes, styling, textures and the little details
+                    that make a look unmistakable.</p>
+            </div>
+            <div class="filter-row reveal" role="group" aria-label="Filter portfolio">
+                <button class="filter-btn active" data-filter="all">All work</button><button class="filter-btn"
+                    data-filter="couture">Couture</button><button class="filter-btn"
+                    data-filter="editorial">Editorial</button><button class="filter-btn" data-filter="bridal">Bridal
+                    mood</button><button class="filter-btn" data-filter="details">Details</button>
+            </div>
+            <div class="gallery" id="gallery">
+                <article class="gallery-card reveal" data-category="couture" data-item="0" tabindex="0"><img
+                        src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=900&q=85"
+                        alt="Sculpted couture styling" loading="lazy">
+                    <div class="gallery-meta"><small>Couture · 01</small>
+                        <h3>Form in motion</h3>
+                    </div>
+                </article>
+                <article class="gallery-card reveal" data-category="editorial" data-item="1" tabindex="0"><img
+                        src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=85"
+                        alt="Editorial fashion portrait" loading="lazy">
+                    <div class="gallery-meta"><small>Editorial · 02</small>
+                        <h3>Quiet confidence</h3>
+                    </div>
+                </article>
+                <article class="gallery-card reveal" data-category="details" data-item="2" tabindex="0"><img
+                        src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85"
+                        alt="Fashion details and styling" loading="lazy">
+                    <div class="gallery-meta"><small>Details · 03</small>
+                        <h3>The finishing touch</h3>
+                    </div>
+                </article>
+                <article class="gallery-card reveal" data-category="bridal" data-item="3" tabindex="0"><img
+                        src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=85"
+                        alt="Romantic bridal inspiration" loading="lazy">
+                    <div class="gallery-meta"><small>Bridal mood · 04</small>
+                        <h3>A day to remember</h3>
+                    </div>
+                </article>
+                <article class="gallery-card reveal" data-category="couture" data-item="4" tabindex="0"><img
+                        src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=900&q=85"
+                        alt="Fashion runway inspired look" loading="lazy">
+                    <div class="gallery-meta"><small>Couture · 05</small>
+                        <h3>Unexpected elegance</h3>
+                    </div>
+                </article>
+                <article class="gallery-card reveal" data-category="editorial" data-item="5" tabindex="0"><img
+                        src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=900&q=85"
+                        alt="Contemporary fashion editorial" loading="lazy">
+                    <div class="gallery-meta"><small>Editorial · 06</small>
+                        <h3>Colour study</h3>
+                    </div>
+                </article>
+                <article class="gallery-card reveal" data-category="details" data-item="6" tabindex="0"><img
+                        src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=85"
+                        alt="Curated wardrobe textures" loading="lazy">
+                    <div class="gallery-meta"><small>Details · 07</small>
+                        <h3>Texture & tone</h3>
+                    </div>
+                </article>
+                <article class="gallery-card reveal" data-category="bridal" data-item="7" tabindex="0"><img
+                        src="https://images.unsplash.com/photo-1594552072238-b8a33785b261?auto=format&fit=crop&w=900&q=85"
+                        alt="Bridal dress inspiration" loading="lazy">
+                    <div class="gallery-meta"><small>Bridal mood · 08</small>
+                        <h3>Softly ceremonial</h3>
+                    </div>
+                </article>
+                <article class="gallery-card reveal" data-category="couture" data-item="8" tabindex="0"><img
+                        src="https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?auto=format&fit=crop&w=900&q=85"
+                        alt="Expressive fashion styling" loading="lazy">
+                    <div class="gallery-meta"><small>Couture · 09</small>
+                        <h3>Made to move</h3>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="process">
+            <div class="section-head reveal">
+                <div>
+                    <div class="section-kicker">04 — The atelier experience</div>
+                    <h2>From first thought<br>to <em>forever piece.</em></h2>
+                </div>
+                <p class="section-desc">A considered, collaborative process that gives your idea room to become
+                    something exceptional.</p>
+            </div>
+            <div class="process-grid reveal">
+                <article class="process-card"><span class="process-no">01 / Discover</span>
+                    <h3>The conversation</h3>
+                    <p>We talk about your story, the occasion, your inspirations and how you want to feel in the final
+                        piece.</p>
+                </article>
+                <article class="process-card"><span class="process-no">02 / Imagine</span>
+                    <h3>The design</h3>
+                    <p>References, sketches, colour stories and fabric directions bring the first vision into focus.</p>
+                </article>
+                <article class="process-card"><span class="process-no">03 / Create</span>
+                    <h3>The craft</h3>
+                    <p>Thoughtful construction, fittings and detail refinement turn the concept into a garment made for
+                        you.</p>
+                </article>
+                <article class="process-card"><span class="process-no">04 / Reveal</span>
+                    <h3>Your moment</h3>
+                    <p>The final fitting brings every detail together, ready for the moment you have been imagining.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="quote-section">
+            <div class="quote-mark">“</div>
+            <blockquote>Fashion should not ask you to become someone else. It should help the world see more of who you
+                already are.</blockquote>
+            <p>Dixita · Design philosophy</p>
+        </section>
+
+        <section class="section" id="contact">
+            <div class="contact-grid">
+                <div class="contact-copy reveal">
+                    <div class="section-kicker">05 — Begin something beautiful</div>
+                    <h2>Have a look<br>in <em>mind?</em></h2>
+                    <p>Tell me a little about what you are dreaming up — a bespoke outfit, a special occasion look, a
+                        creative collaboration or simply an idea you would love to explore.</p>
+                    <div class="contact-detail">
+                        <div><strong>Atelier enquiries</strong>hello@dixita.design <span
+                                style="font-size:.7rem">(replace with your email)</span></div>
+                        <div><strong>Appointments</strong>By prior consultation</div>
+                        <div><strong>Based in</strong>India · Available for select collaborations worldwide</div>
+                    </div>
+                </div>
+                <form class="contact-form reveal" id="contactForm">
+                    <div class="form-field"><label for="name">Your name *</label><input id="name" name="name" required
+                            placeholder="Name"></div>
+                    <div class="form-field"><label for="email">Email address *</label><input id="email" name="email"
+                            type="email" required placeholder="you@example.com"></div>
+                    <div class="form-field"><label for="project">I'm interested in</label><select id="project"
+                            name="project">
+                            <option>Bespoke design</option>
+                            <option>Bridal / occasionwear</option>
+                            <option>Editorial / styling</option>
+                            <option>Fashion collaboration</option>
+                            <option>Something else</option>
+                        </select></div>
+                    <div class="form-field"><label for="date">Occasion date (optional)</label><input id="date"
+                            name="date" type="date"></div>
+                    <div class="form-field full"><label for="message">Tell me about your idea *</label><textarea
+                            id="message" name="message" required
+                            placeholder="The occasion, the feeling, the little details…"></textarea></div>
+                    <p class="form-note">This demo opens your email app with the enquiry details. Add your real email
+                        address in the script before publishing.</p>
+                    <button class="button primary" type="submit">Send your enquiry ↗</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-brand">DIXITA</div>
+            <p>Independent design. Personal expression. Pieces made to feel like they were always meant to be yours.</p>
+            <a class="button" href="#home">Back to top ↑</a>
+        </div>
+        <div class="footer-bottom"><span>© <span id="year"></span> DIXITA ATELIER. All rights reserved.</span>
+            <div class="footer-socials"><a href="#contact">Instagram ↗</a><a href="#contact">Pinterest ↗</a><a
+                    href="#contact">Email ↗</a></div><span>Designed with intention.</span>
+        </div>
+    </footer>
+
+    <div class="modal" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-box"><button class="modal-close" id="modalClose"
+                aria-label="Close project details">×</button><img id="modalImage" src="" alt="">
+            <div class="modal-text">
+                <div class="section-kicker" id="modalKicker">DIXITA ATELIER</div>
+                <h3 id="modalTitle">Project title</h3>
+                <p id="modalDescription">Design story and inspiration.</p>
+                <div style="margin-top:25px"><a class="button primary" href="#contact" id="modalContact">Discuss a
+                        similar piece ↗</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        const $ = (selector, root = document) => root.querySelector(selector);
+        const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+        const projectData = [
+            { title: "Petal & Poise", kicker: "Collection 01 · Occasionwear", description: "An exploration of fluid silhouettes, soft structure and romantic details. Designed for movement, comfort and the kind of confidence that never needs to announce itself.", image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1200&q=88" },
+            { title: "City Muse", kicker: "Collection 02 · Contemporary", description: "A wardrobe built around considered layers and expressive proportions — modern pieces for people who make their own rules.", image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=88" },
+            { title: "Afterglow", kicker: "Collection 03 · Atelier", description: "Occasionwear with a quiet kind of drama. Thoughtful fabric choices, clean finishing and details that catch the light at just the right moment.", image: "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=1200&q=88" },
+            { title: "A Day to Remember", kicker: "Bridal mood · Bespoke", description: "A romantic starting point for a personal celebration look, balancing softness, craft and a sense of occasion.", image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=88" },
+            { title: "Unexpected Elegance", kicker: "Couture · Form study", description: "A study in shape and movement — where proportion does the talking and every line has a purpose.", image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=88" },
+            { title: "Colour Study", kicker: "Editorial · Visual diary", description: "An editorial exploration of colour, styling and the way a single strong detail can transform the whole look.", image: "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=1200&q=88" },
+            { title: "Texture & Tone", kicker: "Details · Material story", description: "The tactile side of design: fabric, drape, finishing and the small choices that make a piece feel considered.", image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=88" },
+            { title: "Softly Ceremonial", kicker: "Bridal mood · Inspiration", description: "A gentle, modern take on ceremonial dressing, created around the person wearing it rather than a passing trend.", image: "https://images.unsplash.com/photo-1594552072238-b8a33785b261?auto=format&fit=crop&w=1200&q=88" },
+            { title: "Made to Move", kicker: "Couture · Silhouette", description: "Expressive design with freedom of movement at its heart. A reminder that the most memorable clothes should be lived in.", image: "https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?auto=format&fit=crop&w=1200&q=88" }
+        ];
+
+        function showProject(index) {
+            const item = projectData[index]; if (!item) return;
+            $("#modalImage").src = item.image; $("#modalImage").alt = item.title;
+            $("#modalKicker").textContent = item.kicker; $("#modalTitle").textContent = item.title;
+            $("#modalDescription").textContent = item.description;
+            $("#projectModal").classList.add("open"); document.body.style.overflow = "hidden";
+        }
+        function closeProject() { $("#projectModal").classList.remove("open"); document.body.style.overflow = ""; }
+
+        $("#modalClose").addEventListener("click", closeProject);
+        $("#projectModal").addEventListener("click", e => { if (e.target === $("#projectModal")) closeProject() });
+        document.addEventListener("keydown", e => { if (e.key === "Escape") { closeProject(); closeMenu() } });
+        $$("[data-modal]").forEach(card => { const open = () => showProject(Number(card.dataset.modal)); card.addEventListener("click", open); card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open() } }) });
+        $$(".gallery-card").forEach(card => { const open = () => showProject(Number(card.dataset.item)); card.addEventListener("click", open); card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open() } }) });
+
+        $$(".filter-btn").forEach(button => button.addEventListener("click", () => {
+            $$(".filter-btn").forEach(b => b.classList.toggle("active", b === button));
+            const filter = button.dataset.filter;
+            $$(".gallery-card").forEach(card => {
+                const visible = filter === "all" || card.dataset.category === filter;
+                card.classList.toggle("hidden", !visible);
+                if (visible) { card.classList.remove("visible"); requestAnimationFrame(() => card.classList.add("visible")); }
+            });
+        }));
+
+        const header = $("#header");
+        function onScroll() {
+            const scroll = window.scrollY; header.classList.toggle("scrolled", scroll > 35);
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            $("#progress").style.width = (max > 0 ? scroll / max * 100 : 0) + "%";
+        }
+        window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+        const menuToggle = $("#menuToggle"), navLinks = $("#navLinks");
+        function closeMenu() { navLinks.classList.remove("open"); document.body.classList.remove("menu-open"); menuToggle.setAttribute("aria-expanded", "false"); menuToggle.textContent = "☰"; }
+        menuToggle.addEventListener("click", () => { const open = !navLinks.classList.contains("open"); navLinks.classList.toggle("open", open); document.body.classList.toggle("menu-open", open); menuToggle.setAttribute("aria-expanded", String(open)); menuToggle.textContent = open ? "×" : "☰"; });
+        $$(".nav-links a").forEach(link => link.addEventListener("click", closeMenu));
+
+        const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+            if (entry.isIntersecting) { entry.target.classList.add("visible"); revealObserver.unobserve(entry.target); }
+        }), { threshold: .12 });
+        $$(".reveal").forEach(el => revealObserver.observe(el));
+
+        const cursor = $("#cursorDot");
+        if (window.matchMedia("(pointer:fine)").matches) {
+            window.addEventListener("mousemove", e => { cursor.style.left = e.clientX + "px"; cursor.style.top = e.clientY + "px"; }, { passive: true });
+        }
+        window.addEventListener("load", () => setTimeout(() => $("#loader").classList.add("hide"), 250));
+        setTimeout(() => $("#loader").classList.add("hide"), 2200);
+        $("#year").textContent = new Date().getFullYear();
+
+        function showToast(message) { const toast = $("#toast"); toast.textContent = message; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 3200); }
+        $("#contactForm").addEventListener("submit", e => {
+            e.preventDefault();
+            const form = new FormData(e.currentTarget);
+            const name = form.get("name"), email = form.get("email"), project = form.get("project"), date = form.get("date") || "Not specified", message = form.get("message");
+            // Replace this with your real business email before publishing.
+            const recipient = "hello@dixita.design";
+            const subject = encodeURIComponent("DIXITA Atelier Enquiry — " + project);
+            const body = encodeURIComponent("Name: " + name + "\nEmail: " + email + "\nEnquiry: " + project + "\nOccasion date: " + date + "\n\nMessage:\n" + message);
+            showToast("Opening your email app to send the enquiry…");
+            window.location.href = "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
+        });
+        $("#modalContact").addEventListener("click", closeProject);
+    </script>
+</body>
+
+</html>
